@@ -1,4 +1,4 @@
-aws_region      = "ca-central-1a"
+aws_region      = "ca-central-1"
 cluster_name    = "k8s-dev-cluster"
 environment     = "dev"
 instance_type   = "t3.medium"

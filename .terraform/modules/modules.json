@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"master-nodes","Source":"./modules/master-nodes","Dir":"modules/master-nodes"},{"Key":"vpc","Source":"./modules/vpc","Dir":"modules/vpc"},{"Key":"worker-nodes","Source":"./modules/worker-nodes","Dir":"modules/worker-nodes"}]}
