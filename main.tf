@@ -20,11 +20,43 @@ module "vpc" {
   cluster_name     = var.cluster_name
 }
 
-module "master-nodes" {
-  source = "./modules/master-nodes"
-  vpc_id = module.vpc.vpc_id
+#module "master-nodes" {
+#  source = "./modules/master-nodes"
+#  vpc_id = module.vpc.vpc_id
+#  ami_id        = data.aws_ami.latest_ami.id
+#  instance_type = var.instance_type
+#  count         = var.master_count
+#}
+#module "worker-nodes" {
+#  source = "./modules/worker-nodes"
+#  vpc_id = module.vpc.vpc_id
+#  ami_id        = data.aws_ami.latest_ami.id
+#  instance_type = var.instance_type
+#  count         = var.master_count
+#}
+module "security_groups" {
+  source = "./modules/security-groups"
+
+  cluster_name          = var.cluster_name
+  allowed_ssh_ips      = var.allowed_ssh_ips
+  master_cidr_blocks   = var.master_cidr_blocks
+  worker_cidr_blocks   = var.worker_cidr_blocks
+  etcd_cidr_blocks     = var.etcd_cidr_blocks
+  storage_cidr_blocks  = var.storage_cidr_blocks
 }
-module "worker-nodes" {
-  source = "./modules/worker-nodes"
-  vpc_id = module.vpc.vpc_id
+data "aws_ami" "latest_ami" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-*-amd64-server-*"] 
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
 }
+
