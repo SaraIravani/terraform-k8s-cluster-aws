@@ -20,14 +20,17 @@ module "vpc" {
   cluster_name     = var.cluster_name
 }
 
-#module "master-nodes" {
-#  source = "./modules/master-nodes"
-#  vpc_id = module.vpc.vpc_id
-#  ami_id        = data.aws_ami.latest_ami.id
-#  instance_type = var.instance_type
-#  count         = var.master_count
-#}
-#module "worker-nodes" {
+module "master_nodes" {
+  source             = "./modules/master-nodes"
+  cluster_name       = var.cluster_name
+  environment        = var.environment
+  master_count       = var.master_count
+  instance_type      = var.instance_type
+  key_name           = var.key_name
+  subnet_ids         = var.subnet_ids
+  security_group_id  = module.security_groups.master_sg_id
+}
+
 #  source = "./modules/worker-nodes"
 #  vpc_id = module.vpc.vpc_id
 #  ami_id        = data.aws_ami.latest_ami.id

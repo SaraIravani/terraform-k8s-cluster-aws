@@ -38,6 +38,17 @@ variable "master_cidr_blocks" {
   default     = ["10.0.0.0/24"]
 }
 
+variable "key_name" {
+  description = "Key pair for SSH access"
+  default     = "my-key"
+}
+
+variable "subnet_ids" {
+  description = "List of subnet IDs for master nodes"
+  default     = ["subnet-abc123", "subnet-def456", "subnet-ghi789"]
+}
+
+
 variable "worker_cidr_blocks" {
   description = "CIDR blocks allowed to access worker nodes"
   default     = ["10.0.1.0/24"]
@@ -55,7 +66,7 @@ variable "storage_cidr_blocks" {
 variable "master_count" {
   description = "Number of master nodes"
   type        = number
-  default     = 1
+  default     = 3
 }
 
 variable "worker_count" {
