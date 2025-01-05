@@ -9,3 +9,4 @@ output "master_private_ips" {
 output "master_public_ips" {
   value = aws_instance.master[*].public_ip
 }
+

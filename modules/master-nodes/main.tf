@@ -29,4 +29,39 @@ resource "aws_instance" "master" {
     Environment = var.environment
   }
 }
+# Launch Template
+resource "aws_launch_template" "master_template" {
+  name          = "${var.cluster_name}-master-template"
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  vpc_security_group_ids = [var.master_sg_id]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "${var.cluster_name}-master"
+    }
+  }
+}
+# Autoscaling Group for Master Nodes
+resource "aws_autoscaling_group" "master_asg" {
+  desired_capacity     = var.master_count
+  max_size             = var.master_count
+  min_size             = var.master_count
+  vpc_zone_identifier  = var.subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.master_template.id
+    version = "$Latest"
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "${var.cluster_name}-master"
+    propagate_at_launch = true
+  }
+}
 

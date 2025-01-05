@@ -22,6 +22,7 @@ module "vpc" {
 
 module "master_nodes" {
   source             = "./modules/master-nodes"
+  master_sg_id       = module.security_groups.master_sg_id
   cluster_name       = var.cluster_name
   environment        = var.environment
   master_count       = var.master_count
@@ -29,6 +30,9 @@ module "master_nodes" {
   key_name           = var.key_name
   subnet_ids         = var.subnet_ids
   security_group_id  = module.security_groups.master_sg_id
+  allowed_ssh_ips       = var.allowed_ssh_ips
+  master_cidr_blocks    = var.master_cidr_blocks
+  worker_cidr_blocks    = var.worker_cidr_blocks
 }
 
 #  source = "./modules/worker-nodes"
